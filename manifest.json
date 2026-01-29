@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Right Click AI (Custom UI)",
+  "version": "0.1",
+  "description": "Double right-click AI menu (frontend only)",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
