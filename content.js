@@ -1,8 +1,4 @@
-/* ===============================
-   RIGHT CLICK AI - COMPLETE EXTENSION
-   Enhanced with Interactive Features
-   Version: 2.0
-================================ */
+
 
 let lastRightClick = 0;
 let chatHistory = [];
@@ -17,11 +13,7 @@ let pageContext = {
   timestamp: new Date().toISOString()
 };
 
-/* ===============================
-   SELECTION TRACKING SYSTEM
-   Captures selection BEFORE contextmenu fires
-   This is critical for proper text detection
-================================ */
+
 function updateCachedSelection() {
   const selection = window.getSelection();
   const text = selection.toString().trim();
@@ -32,7 +24,7 @@ function updateCachedSelection() {
   }
 }
 
-// Multiple event listeners to ensure we catch all selection methods
+
 document.addEventListener('selectionchange', updateCachedSelection);
 document.addEventListener('mouseup', () => {
   setTimeout(updateCachedSelection, 10);
@@ -43,10 +35,7 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
-/* ===============================
-   PAGE CONTEXT EXTRACTION
-   Extracts meaningful content from the current page
-================================ */
+
 function extractPageContext() {
   const content = Array.from(document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li, td, th, article, section'))
     .map(el => el.textContent.trim())
@@ -74,14 +63,11 @@ function extractPageContext() {
   });
 }
 
-// Initial extraction and periodic updates
+
 extractPageContext();
 setInterval(extractPageContext, 30000);
 
-/* ===============================
-   ICON LIBRARY
-   SVG icons for UI elements
-================================ */
+
 const ICONS = {
   ask: '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
   notes: '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>',
@@ -103,13 +89,10 @@ const ICONS = {
   send: '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>'
 };
 
-/* ===============================
-   COMPREHENSIVE STYLING SYSTEM
-   Modern glass-morphism design with purposeful animations
-================================ */
+
 const style = document.createElement('style');
 style.textContent = `
-  /* CSS Variables for Consistent Theming */
+  
   :root {
     --glass-bg: rgba(20, 20, 20, 0.85);
     --glass-border: rgba(255, 255, 255, 0.08);
@@ -123,7 +106,7 @@ style.textContent = `
     --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Animation Keyframes - Fast and Purposeful */
+  
   @keyframes slideIn {
     from { 
       transform: translateX(-8px); 
@@ -173,7 +156,7 @@ style.textContent = `
     }
   }
 
-  /* Main Container Styles */
+  
   .chat-ui-container {
     font-family: var(--glass-font);
     background: var(--glass-bg) !important;
@@ -185,7 +168,7 @@ style.textContent = `
     animation: scaleIn var(--transition-fast);
   }
 
-  /* Menu Item Styles */
+  
   .chat-menu-item {
     padding: 8px 12px !important;
     margin: 2px 4px !important;
@@ -207,7 +190,7 @@ style.textContent = `
     transform: scale(0.98);
   }
 
-  /* Brand Pill */
+  
   .chat-brand-pill {
     background: var(--glass-accent);
     color: white;
@@ -219,7 +202,7 @@ style.textContent = `
     letter-spacing: 0.5px;
   }
 
-  /* Section Labels */
+  
   .chat-menu-section-label {
     padding: 6px 12px 2px;
     font-size: 10px;
@@ -230,7 +213,7 @@ style.textContent = `
     margin-top: 4px;
   }
 
-  /* Submenu Styles */
+  
   .chat-submenu {
     display: none;
     position: absolute;
@@ -268,7 +251,7 @@ style.textContent = `
     opacity: 0.5;
   }
 
-  /* Message Styles */
+  
   .chat-message {
     display: flex;
     gap: 12px;
@@ -327,7 +310,7 @@ style.textContent = `
     font-weight: 600;
   }
 
-  /* Input Styles */
+  
   .chat-input-container {
     padding: 12px;
     border-top: 1px solid var(--glass-border);
@@ -358,7 +341,7 @@ style.textContent = `
     opacity: 0.6;
   }
 
-  /* Button Styles */
+  
   .chat-send-btn {
     background: var(--glass-accent);
     color: white;
@@ -389,7 +372,7 @@ style.textContent = `
     cursor: not-allowed;
   }
 
-  /* Typing Indicator */
+  
   .typing-indicator {
     display: inline-flex;
     gap: 4px;
@@ -412,7 +395,7 @@ style.textContent = `
     animation-delay: 0.4s;
   }
 
-  /* Tab Styles */
+  
   .chat-tabs {
     display: flex;
     border-bottom: 1px solid var(--glass-border);
@@ -439,7 +422,7 @@ style.textContent = `
     font-weight: 500;
   }
 
-  /* Scrollbar Styles */
+  
   .chat-scroll::-webkit-scrollbar {
     width: 6px;
   }
@@ -453,7 +436,7 @@ style.textContent = `
     background: rgba(255,255,255,0.3);
   }
 
-  /* Interactive Card Styles */
+  
   .interactive-card {
     background: rgba(0,0,0,0.2);
     border: 1px solid var(--glass-border);
@@ -464,7 +447,7 @@ style.textContent = `
     animation: fadeIn var(--transition-fast);
   }
 
-  /* Quiz Option Styles */
+  
   .quiz-option {
     padding: 8px 12px;
     margin: 4px 0;
@@ -500,7 +483,7 @@ style.textContent = `
     opacity: 0.6;
   }
 
-  /* Diff View Styles */
+  
   .diff-view {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -524,7 +507,7 @@ style.textContent = `
     letter-spacing: 0.5px;
   }
 
-  /* Flashcard Styles */
+  
   .flashcard {
     background: rgba(0,0,0,0.3);
     border: 1px solid var(--glass-border);
@@ -566,7 +549,7 @@ style.textContent = `
     font-weight: 600;
   }
 
-  /* Action Bar Styles */
+  
   .action-bar {
     display: flex;
     gap: 8px;
@@ -603,7 +586,7 @@ style.textContent = `
     border-color: var(--glass-accent);
   }
 
-  /* Star Button Styles */
+  
   .star-btn {
     position: absolute;
     top: 8px;
@@ -627,7 +610,7 @@ style.textContent = `
     color: #fbbf24;
   }
 
-  /* History Item Styles */
+  
   .history-item {
     padding: 12px;
     margin: 4px 0;
@@ -665,7 +648,7 @@ style.textContent = `
     margin-top: 4px;
   }
 
-  /* Empty State Styles */
+  
   .empty-state {
     text-align: center;
     padding: 40px 20px;
@@ -682,7 +665,7 @@ style.textContent = `
     font-size: 14px;
   }
 
-  /* Badge Styles */
+  
   .context-badge {
     display: inline-block;
     background: rgba(16, 163, 127, 0.2);
@@ -693,7 +676,7 @@ style.textContent = `
     margin-left: 8px;
   }
 
-  /* Header Styles */
+  
   .panel-header {
     padding: 10px 14px;
     background: rgba(255,255,255,0.02);
@@ -725,7 +708,7 @@ style.textContent = `
     opacity: 1;
   }
 
-  /* Utility Classes */
+  
   .no-drag {
     cursor: default !important;
   }
@@ -741,10 +724,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-/* ===============================
-   LOCAL STORAGE MANAGEMENT
-   Handles persistence of conversation history and starred items
-================================ */
+
 function loadHistory() {
   try {
     const savedHistory = localStorage.getItem('rightClickAI_history');
@@ -776,13 +756,10 @@ function saveHistory() {
   }
 }
 
-// Initialize history on load
+
 loadHistory();
 
-/* ===============================
-   CONTEXT MENU TRIGGER
-   Detects double right-click to show menu
-================================ */
+
 document.addEventListener("contextmenu", (e) => {
   const now = Date.now();
   const timeDiff = now - lastRightClick;
@@ -798,12 +775,9 @@ document.addEventListener("contextmenu", (e) => {
   lastRightClick = now;
 });
 
-/* ===============================
-   MAIN MENU DISPLAY
-   Shows comprehensive menu with all options
-================================ */
+
 function showMainMenu(x, y, target) {
-  // Remove any existing menu
+  
   const existingMenu = document.getElementById("rc-ai-menu");
   if (existingMenu) {
     existingMenu.remove();
@@ -827,16 +801,16 @@ function showMainMenu(x, y, target) {
     overflow-y: auto;
   `;
 
-  // Header
+  
   const header = document.createElement("div");
   header.style.cssText = "padding:8px 12px;border-bottom:1px solid var(--glass-border);margin-bottom:4px;";
   header.innerHTML = `<span class="chat-brand-pill">AI</span> <span style="font-size:11px;font-weight:600;color:var(--glass-secondary)">Right Click AI</span>`;
   menu.appendChild(header);
 
-  // Build action list
+  
   const actions = [];
 
-  // Always available
+  
   actions.push({ 
     id: "ask", 
     label: "Ask about this page", 
@@ -850,7 +824,7 @@ function showMainMenu(x, y, target) {
   });
 
   if (hasSelection) {
-    // Writing section
+    
     actions.push({ 
       type: 'header', 
       label: 'Writing' 
@@ -884,7 +858,7 @@ function showMainMenu(x, y, target) {
       ]
     });
 
-    // Understanding section
+    
     actions.push({ 
       type: 'header', 
       label: 'Understanding' 
@@ -927,7 +901,7 @@ function showMainMenu(x, y, target) {
     });
   }
 
-  // Render actions
+  
   actions.forEach(action => {
     if (action.type === 'header') {
       const label = document.createElement("div");
@@ -988,7 +962,7 @@ function showMainMenu(x, y, target) {
 
   document.body.appendChild(menu);
 
-  // Prevent menu from going off-screen
+  
   const rect = menu.getBoundingClientRect();
   if (rect.right > window.innerWidth) {
     menu.style.left = (window.innerWidth - rect.width - 10) + "px";
@@ -997,7 +971,7 @@ function showMainMenu(x, y, target) {
     menu.style.top = (window.innerHeight - rect.height - 10) + "px";
   }
 
-  // Close menu when clicking outside
+  
   const closeMenu = () => {
     menu.remove();
     document.removeEventListener("click", closeMenu);
@@ -1008,11 +982,8 @@ function showMainMenu(x, y, target) {
   }, 10);
 }
 
-/* ===============================
-   GEMINI AI API INTEGRATION
-   Handles communication with Google's Gemini API
-================================ */
-const GEMINI_API_KEY = '';
+
+const GEMINI_API_KEY = 'YOUR_GOOGLE_API_KEY_HERE';
 const GEMINI_MODEL = 'gemini-2.5-flash';
 
 async function callGeminiAPI(userMessage, conversationHistory = []) {
@@ -1042,7 +1013,7 @@ Provide helpful, accurate, and context-aware responses based on this information
     }
   ];
 
-  // Add conversation history
+  
   conversationHistory.forEach(msg => {
     contents.push({
       role: msg.role === 'user' ? 'user' : 'model',
@@ -1050,7 +1021,7 @@ Provide helpful, accurate, and context-aware responses based on this information
     });
   });
 
-  // Add current user message
+  
   contents.push({
     role: "user",
     parts: [{ text: userMessage }]
@@ -1058,7 +1029,7 @@ Provide helpful, accurate, and context-aware responses based on this information
 
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
+      `https:
       {
         method: "POST",
         headers: {
@@ -1095,10 +1066,7 @@ Provide helpful, accurate, and context-aware responses based on this information
   }
 }
 
-/* ===============================
-   ACTION HANDLER
-   Routes user actions to appropriate handlers
-================================ */
+
 async function handleAction(actionId) {
   console.log('[Action Handler] Action:', actionId);
   
@@ -1117,7 +1085,7 @@ async function handleAction(actionId) {
   pageContext.selectedText = selectedText || "(whole page)";
   currentConversation = [];
   
-  // Clear cached selection after use
+  
   if (selectedText) {
     lastSelectedText = '';
   }
@@ -1126,12 +1094,9 @@ async function handleAction(actionId) {
   showFloatingPanel(actionId, textToProcess);
 }
 
-/* ===============================
-   FLOATING PANEL
-   Main UI panel for interactions
-================================ */
+
 function showFloatingPanel(action, text) {
-  // Remove existing panel
+  
   const existing = document.getElementById("rc-ai-panel");
   if (existing) {
     existing.remove();
@@ -1153,7 +1118,7 @@ function showFloatingPanel(action, text) {
     flex-direction: column;
   `;
 
-  // Header
+  
   const header = document.createElement("div");
   header.className = "panel-header";
   
@@ -1170,7 +1135,7 @@ function showFloatingPanel(action, text) {
   header.appendChild(closeBtn);
   panel.appendChild(header);
 
-  // Content area
+  
   const content = document.createElement("div");
   content.style.cssText = "flex:1;overflow-y:auto;padding:16px;";
   content.className = "chat-scroll";
@@ -1180,14 +1145,11 @@ function showFloatingPanel(action, text) {
   document.body.appendChild(panel);
   makeDraggable(panel, header);
 
-  // Process the action
+  
   processAction(action, text, content);
 }
 
-/* ===============================
-   DRAGGABLE FUNCTIONALITY
-   Makes panels draggable
-================================ */
+
 function makeDraggable(element, handle) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   
@@ -1225,10 +1187,7 @@ function makeDraggable(element, handle) {
   }
 }
 
-/* ===============================
-   ACTION PROCESSOR
-   Processes different action types
-================================ */
+
 async function processAction(action, text, container) {
   console.log('[Processor] Processing action:', action);
   
@@ -1305,7 +1264,7 @@ Return ONLY valid JSON in this exact format (no markdown, no backticks):
     const response = await callGeminiAPI(prompt);
     removeTypingIndicator(container);
     
-    // Try to parse JSON for interactive features
+    
     let jsonData = null;
     try {
       const jsonMatch = response.match(/\{[\s\S]*\}/);
@@ -1316,7 +1275,7 @@ Return ONLY valid JSON in this exact format (no markdown, no backticks):
       console.log('[Processor] Not JSON format, rendering as text');
     }
     
-    // Render based on action type
+    
     if (jsonData) {
       if (action === 'quiz' && jsonData.questions) {
         renderQuiz(container, jsonData, text, action);
@@ -1336,7 +1295,7 @@ Return ONLY valid JSON in this exact format (no markdown, no backticks):
       }
     }
     
-    // Fallback to text rendering
+    
     addMessage(container, response, 'ai');
     saveToHistory(action, text, response);
     
@@ -1347,15 +1306,13 @@ Return ONLY valid JSON in this exact format (no markdown, no backticks):
   }
 }
 
-/* ===============================
-   INTERACTIVE RENDERERS
-================================ */
+
 
 function renderQuiz(container, data, originalText, action) {
   const card = document.createElement("div");
   card.className = "interactive-card";
   
-  // Star button
+  
   const starBtn = createStarButton(data, action, originalText);
   card.appendChild(starBtn);
   
@@ -1394,25 +1351,25 @@ function renderQuiz(container, data, originalText, action) {
         btn.classList.add(correct ? "correct" : "incorrect");
         
         if (correct) {
-          // Disable all options for this question
+          
           Array.from(opts.children).forEach(c => {
             c.dataset.answered = "true";
             c.classList.add('disabled');
           });
           
-          // Update score only on first try
+          
           if (!qBlock.dataset.attempted) {
             score++;
             card.querySelector('.quiz-score').textContent = `Score: ${score}/${total}`;
           }
           
-          // Show explanation
+          
           if (q.explanation) {
             const exp = document.createElement("div");
             exp.style.cssText = "font-size:12px;margin-top:8px;padding:8px;background:rgba(16,163,127,0.1);border-radius:4px;color:var(--glass-green);";
             exp.textContent = "✅ " + q.explanation;
             
-            // Remove old explanation if exists
+            
             const oldExp = qBlock.querySelector('.explanation');
             if (oldExp) oldExp.remove();
             
@@ -1431,7 +1388,7 @@ function renderQuiz(container, data, originalText, action) {
     card.appendChild(qBlock);
   });
   
-  // Action bar
+  
   const actionBar = document.createElement("div");
   actionBar.className = "action-bar";
   actionBar.style.marginTop = "16px";
@@ -1525,7 +1482,7 @@ function renderFlashcards(container, data, originalText, action) {
   flashcard.appendChild(backDiv);
   card.appendChild(flashcard);
   
-  // Navigation
+  
   const nav = document.createElement("div");
   nav.className = "action-bar";
   nav.style.cssText = "margin-top:12px;justify-content:space-between;";
@@ -1550,7 +1507,7 @@ function renderFlashcards(container, data, originalText, action) {
   nav.appendChild(nextBtn);
   card.appendChild(nav);
   
-  // Copy button
+  
   const copyBar = document.createElement("div");
   copyBar.className = "action-bar";
   
@@ -1624,7 +1581,7 @@ function renderNotes(container, data, originalText, action) {
     card.appendChild(sec);
   });
   
-  // Copy button
+  
   const actionBar = document.createElement("div");
   actionBar.className = "action-bar";
   
@@ -1704,7 +1661,7 @@ function renderDiff(container, data, originalText, action) {
     card.appendChild(changes);
   }
   
-  // Action bar
+  
   const actionBar = document.createElement("div");
   actionBar.className = "action-bar";
   actionBar.style.marginTop = "16px";
@@ -1736,9 +1693,7 @@ function renderDiff(container, data, originalText, action) {
   saveToHistory(action, originalText, 'Text rewritten');
 }
 
-/* ===============================
-   HELPER FUNCTIONS
-================================ */
+
 
 function createStarButton(data, type, text) {
   const btn = document.createElement("button");
@@ -1796,7 +1751,7 @@ function saveToHistory(action, inputText, outputSummary) {
   
   chatHistory.unshift(conversation);
   
-  // Keep only last 50 conversations
+  
   if (chatHistory.length > 50) {
     chatHistory = chatHistory.slice(0, 50);
   }
@@ -1805,9 +1760,7 @@ function saveToHistory(action, inputText, outputSummary) {
   console.log('[History] Saved conversation:', conversation.title);
 }
 
-/* ===============================
-   CONVERSATION HISTORY
-================================ */
+
 
 function showConversationHistory() {
   const existing = document.getElementById("rc-ai-panel");
@@ -1831,7 +1784,7 @@ function showConversationHistory() {
     flex-direction: column;
   `;
 
-  // Header
+  
   const header = document.createElement("div");
   header.className = "panel-header";
   
@@ -1848,7 +1801,7 @@ function showConversationHistory() {
   header.appendChild(closeBtn);
   panel.appendChild(header);
 
-  // Tabs
+  
   const tabs = document.createElement("div");
   tabs.className = "chat-tabs no-drag";
   
@@ -1866,14 +1819,14 @@ function showConversationHistory() {
   tabs.appendChild(starredTab);
   panel.appendChild(tabs);
 
-  // Content
+  
   const content = document.createElement("div");
   content.style.cssText = "flex:1;overflow-y:auto;padding:16px;";
   content.className = "chat-scroll";
   content.id = "history-content";
   panel.appendChild(content);
 
-  // Clear all button
+  
   const footer = document.createElement("div");
   footer.style.cssText = "padding:12px;border-top:1px solid var(--glass-border);";
   
@@ -1940,7 +1893,7 @@ function showConversationHistory() {
       historyItem.appendChild(itemPreview);
       historyItem.appendChild(itemDate);
       
-      // Delete button
+      
       const deleteBtn = document.createElement("button");
       deleteBtn.className = "action-btn";
       deleteBtn.style.cssText = "position:absolute;top:8px;right:8px;padding:4px 8px;font-size:10px;color:var(--glass-red);";
@@ -1964,9 +1917,7 @@ function showConversationHistory() {
   }
 }
 
-/* ===============================
-   MESSAGE RENDERING
-================================ */
+
 
 function addMessage(container, text, role) {
   const msg = document.createElement("div");
@@ -1979,7 +1930,7 @@ function addMessage(container, text, role) {
   const content = document.createElement("div");
   content.className = "chat-content";
   
-  // Process text formatting
+  
   let html = text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -2031,10 +1982,7 @@ function removeTypingIndicator(container) {
   }
 }
 
-/* ===============================
-   INITIALIZATION
-   Final setup and console logging
-================================ */
+
 
 console.log(`
 ╔════════════════════════════════════════════╗
@@ -2078,7 +2026,7 @@ console.log(`
 ⚡ Total Lines: 2000+
 `);
 
-// Log current state
+
 console.log('[Init] Page Context:', {
   title: pageContext.title,
   domain: pageContext.domain,
@@ -2090,13 +2038,9 @@ console.log('[Init] Starred items:', starredItems.length);
 console.log('[Init] Selection tracking active');
 console.log('[Init] Ready to use - Double right-click to start!');
 
-// Periodic status check
+
 setInterval(() => {
   console.log('[Status] Extension active - Selections cached:', lastSelectedText.length, 'chars');
 }, 60000);
 
-/* ===============================
-   END OF RIGHT CLICK AI EXTENSION
-   Total lines: 2000+
 
-================================ */
