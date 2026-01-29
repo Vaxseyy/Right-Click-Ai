@@ -1,12 +1,10 @@
-/* ===============================
-   Tool Input Rendering
-================================ */
+
 function renderToolInput(container, action, text, onRun) {
   const card = document.createElement("div");
   card.className = "interactive-card";
   card.style.borderLeft = "3px solid var(--glass-accent)";
   
-  // Header
+  
   const header = document.createElement("div");
   header.style.display = "flex";
   header.style.justifyContent = "space-between";
@@ -18,7 +16,7 @@ function renderToolInput(container, action, text, onRun) {
   header.innerHTML = `<span>${ICONS[action.split('_')[0]] || '✦'} ${action.replace(/_/g, ' ')}</span>`;
   card.appendChild(header);
   
-  // Input Area
+  
   const label = document.createElement("div");
   label.textContent = "Input Text";
   label.style.fontSize = "11px";
@@ -39,7 +37,7 @@ function renderToolInput(container, action, text, onRun) {
   };
   card.appendChild(textarea);
   
-  // Options Area
+  
   const optionsContainer = document.createElement("div");
   optionsContainer.style.marginTop = "12px";
   
@@ -93,7 +91,7 @@ function renderToolInput(container, action, text, onRun) {
 
   card.appendChild(optionsContainer);
   
-  // Action Bar
+  
   const actionBar = document.createElement("div");
   actionBar.style.display = "flex";
   actionBar.style.justifyContent = "flex-end";
@@ -103,7 +101,7 @@ function renderToolInput(container, action, text, onRun) {
   runBtn.className = "chat-send-btn";
   runBtn.innerHTML = "Generate ✨";
   runBtn.onclick = () => {
-    // Lock input
+    
     textarea.disabled = true;
     runBtn.disabled = true;
     runBtn.textContent = "Processing...";
@@ -114,10 +112,10 @@ function renderToolInput(container, action, text, onRun) {
   actionBar.appendChild(runBtn);
   card.appendChild(actionBar);
   
-  // Append to container
+  
   const msg = document.createElement("div");
   msg.className = "chat-message";
-  msg.style.flexDirection = "row-reverse"; // User side
+  msg.style.flexDirection = "row-reverse"; 
   
   const avatar = document.createElement("div");
   avatar.className = "chat-avatar user";
@@ -125,7 +123,7 @@ function renderToolInput(container, action, text, onRun) {
   
   const content = document.createElement("div");
   content.className = "chat-content";
-  content.style.width = "100%"; // Full width for card
+  content.style.width = "100%"; 
   content.appendChild(card);
   
   msg.appendChild(avatar);
@@ -133,6 +131,6 @@ function renderToolInput(container, action, text, onRun) {
   container.appendChild(msg);
   container.scrollTop = container.scrollHeight;
   
-  // Trigger auto-resize
+  
   textarea.style.height = (textarea.scrollHeight) + "px";
 }
